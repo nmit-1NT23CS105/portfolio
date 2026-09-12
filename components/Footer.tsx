@@ -68,14 +68,14 @@ export default function Footer() {
       id="footer"
       className="footer-section w-full bg-[#f5f5f5] text-[#0f0f0f] selection:bg-[#0f0f0f] selection:text-white"
     >
-      <div className="container mx-auto px-6 sm:px-10 md:px-16 pt-28 md:pt-40 pb-20 md:pb-28 flex flex-col items-center text-center">
+      <div className="container mx-auto px-4 sm:px-10 md:px-16 pt-16 sm:pt-28 md:pt-40 pb-12 sm:pb-20 md:pb-28 flex flex-col items-center text-center">
         {/* Subhead */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-base sm:text-lg md:text-xl font-sans mb-4 text-[#0f0f0f]/60 font-medium"
+          className="text-sm sm:text-lg md:text-xl font-sans mb-3 sm:mb-4 text-[#0f0f0f]/60 font-medium"
         >
           That&apos;s a wrap? Maybe not.
         </motion.p>
@@ -86,7 +86,7 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-[130px] leading-[0.88] mb-8 tracking-tighter uppercase font-black max-w-5xl"
+          className="font-display text-4xl sm:text-7xl md:text-8xl lg:text-[130px] leading-[0.92] sm:leading-[0.88] mb-6 sm:mb-8 tracking-tighter uppercase font-black max-w-5xl"
         >
           Great things start <br />
           with &apos;Hello&apos;! 🚀
@@ -98,36 +98,36 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-[720px] mb-8"
+          className="max-w-[720px] mb-6 sm:mb-8"
         >
-          <p className="text-lg sm:text-xl md:text-2xl font-sans-clean leading-relaxed font-medium text-[#0f0f0f]/80">
+          <p className="text-base sm:text-xl md:text-2xl font-sans-clean leading-relaxed font-medium text-[#0f0f0f]/80">
             Open to 👁️ conversations, 🤝 backend &amp; ML internships, 🧠 data challenges, or just trading engineering notes.
           </p>
 
           {/* Quick Copy Contact Chips */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-6 text-xs sm:text-sm font-mono font-semibold">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-5 sm:mt-6 text-xs sm:text-sm font-mono font-semibold">
             <button
               onClick={() => copyToClipboard("katarurahul1014@gmail.com", "Email address")}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-black/5 hover:bg-black/10 border border-black/10 transition-all hover:scale-105 active:scale-95 group text-[#0f0f0f]"
+              className="flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-black/5 hover:bg-black/10 border border-black/10 transition-all hover:scale-105 active:scale-95 group text-[#0f0f0f] cursor-pointer"
               title="Click to copy email address"
             >
-              <Mail size={15} className="text-[#22C55E]" />
-              <span>katarurahul1014@gmail.com</span>
-              <Copy size={13} className="text-black/30 group-hover:text-black transition-colors" />
+              <Mail size={14} className="text-[#22C55E]" />
+              <span className="max-w-[190px] sm:max-w-none truncate">katarurahul1014@gmail.com</span>
+              <Copy size={12} className="text-black/30 group-hover:text-black transition-colors shrink-0" />
             </button>
 
             <button
               onClick={() => copyToClipboard("+91-7995263968", "Phone number")}
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-black/5 hover:bg-black/10 border border-black/10 transition-all hover:scale-105 active:scale-95 group text-[#0f0f0f]"
+              className="flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-black/5 hover:bg-black/10 border border-black/10 transition-all hover:scale-105 active:scale-95 group text-[#0f0f0f] cursor-pointer"
               title="Click to copy phone number"
             >
-              <Phone size={15} className="text-[#22C55E]" />
+              <Phone size={14} className="text-[#22C55E]" />
               <span>+91-7995263968</span>
-              <Copy size={13} className="text-black/30 group-hover:text-black transition-colors" />
+              <Copy size={12} className="text-black/30 group-hover:text-black transition-colors shrink-0" />
             </button>
 
-            <span className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-black/5 border border-black/10 text-[#0f0f0f]/70">
-              <MapPin size={15} className="text-[#22C55E]" />
+            <span className="flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-black/5 border border-black/10 text-[#0f0f0f]/70">
+              <MapPin size={14} className="text-[#22C55E]" />
               <span>Bangalore, India</span>
             </span>
           </div>
@@ -139,29 +139,29 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col items-center gap-6"
+          className="flex flex-col items-center gap-5 sm:gap-6 w-full"
         >
           <a
             href="mailto:katarurahul1014@gmail.com"
-            className="group relative flex items-center justify-center bg-[#0f0f0f] text-white px-9 sm:px-12 py-4 sm:py-5 rounded-full text-lg sm:text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-black"
+            className="group relative flex items-center justify-center bg-[#0f0f0f] text-white px-8 sm:px-12 py-3.5 sm:py-5 rounded-full text-base sm:text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-black w-full sm:w-auto"
           >
             <span>Let&apos;s Connect</span>
-            <ArrowRight className="ml-2.5 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
+            <ArrowRight className="ml-2.5 w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
           </a>
 
           {/* Quick Email Templates */}
-          <div className="flex flex-col items-center gap-2.5">
-            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-[#0f0f0f]/50 font-bold">
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-[#0f0f0f]/50 font-bold">
               Or pick a quick draft:
             </span>
-            <div className="flex flex-wrap justify-center gap-2 max-w-xl">
+            <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 max-w-xl">
               {emailPresets.map((preset) => (
                 <a
                   key={preset.label}
                   href={`mailto:katarurahul1014@gmail.com?subject=${encodeURIComponent(
                     preset.subject
                   )}&body=${encodeURIComponent(preset.body)}`}
-                  className="text-xs font-mono px-3.5 py-1.5 rounded-full bg-white hover:bg-black hover:text-white text-black/80 border border-black/10 shadow-xs transition-all hover:scale-105 active:scale-95"
+                  className="text-[11px] sm:text-xs font-mono px-3 py-1.5 rounded-full bg-white hover:bg-black hover:text-white text-black/80 border border-black/10 shadow-xs transition-all hover:scale-105 active:scale-95"
                 >
                   {preset.label}
                 </a>
@@ -170,20 +170,20 @@ export default function Footer() {
           </div>
 
           {/* Social Icon Pills */}
-          <div className="flex flex-col items-center gap-4 mt-4">
-            <span className="text-xs sm:text-sm text-[#0f0f0f]/50 font-mono uppercase tracking-widest">
+          <div className="flex flex-col items-center gap-3 sm:gap-4 mt-2 sm:mt-4">
+            <span className="text-[11px] sm:text-sm text-[#0f0f0f]/50 font-mono uppercase tracking-widest">
               or connect through...
             </span>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4">
               <a
                 href="https://www.linkedin.com/in/kataru-rahul-95a5173a8/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="p-3.5 bg-white rounded-2xl border border-black/10 shadow-sm hover:shadow-md hover:scale-110 transition-all text-[#0f0f0f]"
+                className="p-3 sm:p-3.5 bg-white rounded-2xl border border-black/10 shadow-sm hover:shadow-md hover:scale-110 transition-all text-[#0f0f0f]"
               >
-                <LinkedinIcon className="w-5 h-5" />
+                <LinkedinIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
 
               <a
@@ -191,25 +191,25 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="p-3.5 bg-white rounded-2xl border border-black/10 shadow-sm hover:shadow-md hover:scale-110 transition-all text-[#0f0f0f]"
+                className="p-3 sm:p-3.5 bg-white rounded-2xl border border-black/10 shadow-sm hover:shadow-md hover:scale-110 transition-all text-[#0f0f0f]"
               >
-                <GithubIcon className="w-5 h-5" />
+                <GithubIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
 
               <a
                 href="mailto:katarurahul1014@gmail.com"
                 aria-label="Email"
-                className="p-3.5 bg-white rounded-2xl border border-black/10 shadow-sm hover:shadow-md hover:scale-110 transition-all text-[#0f0f0f]"
+                className="p-3 sm:p-3.5 bg-white rounded-2xl border border-black/10 shadow-sm hover:shadow-md hover:scale-110 transition-all text-[#0f0f0f]"
               >
-                <Mail className="w-5 h-5" />
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
 
               <a
                 href="tel:+917995263968"
                 aria-label="Phone"
-                className="p-3.5 bg-white rounded-2xl border border-black/10 shadow-sm hover:shadow-md hover:scale-110 transition-all text-[#0f0f0f]"
+                className="p-3 sm:p-3.5 bg-white rounded-2xl border border-black/10 shadow-sm hover:shadow-md hover:scale-110 transition-all text-[#0f0f0f]"
               >
-                <Phone className="w-5 h-5" />
+                <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
               </a>
             </div>
           </div>

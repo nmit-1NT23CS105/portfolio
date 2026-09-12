@@ -26,6 +26,16 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [mobileMenuOpen]);
+
   const resumeUrl =
     "https://drive.google.com/file/d/1qjs2OjaPOBqXzvPcmZdoJbPHgLXzPPoS/view?usp=sharing";
 
@@ -146,13 +156,22 @@ export default function Navbar() {
       {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-x-4 top-24 z-[99] lg:hidden bg-[#141414]/95 backdrop-blur-2xl border border-white/15 rounded-3xl p-6 shadow-2xl flex flex-col gap-4 text-center"
-          >
+          <>
+            {/* Dark blur backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 z-[98] bg-black/70 backdrop-blur-xs lg:hidden"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-x-4 top-24 z-[99] lg:hidden bg-[#141414]/95 backdrop-blur-2xl border border-white/15 rounded-3xl p-6 shadow-2xl flex flex-col gap-4 text-center max-h-[calc(100dvh-120px)] overflow-y-auto"
+            >
             <div className="flex justify-between items-center pb-3 border-b border-white/10">
               <span className="text-sm font-semibold tracking-wider text-white/70 uppercase">
                 Menu
@@ -189,6 +208,7 @@ export default function Navbar() {
               <SquareArrowOutUpRight size={16} />
             </a>
           </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

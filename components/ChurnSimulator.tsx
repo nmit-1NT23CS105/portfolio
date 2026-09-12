@@ -72,15 +72,15 @@ export default function ChurnSimulator({ onClose }: { onClose?: () => void } = {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto rounded-3xl bg-[#141414] border border-white/10 p-6 sm:p-8 md:p-10 shadow-2xl my-12 text-white">
+    <div className="w-full max-w-4xl mx-auto rounded-2xl sm:rounded-3xl bg-[#141414] border border-white/10 p-4 sm:p-8 md:p-10 shadow-2xl my-6 sm:my-12 text-white">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-white/10 pb-5 sm:pb-6 mb-6 sm:mb-8">
         <div>
           <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-green-400 uppercase mb-1">
             <Sparkles size={14} />
             <span>Live Interactive Inference Simulator</span>
           </div>
-          <h3 className="font-display text-2xl sm:text-3xl font-bold uppercase text-white tracking-tight">
+          <h3 className="font-display text-xl sm:text-3xl font-bold uppercase text-white tracking-tight">
             Telco Churn ML Model Tester
           </h3>
           <p className="text-white/60 text-xs sm:text-sm font-sans mt-1">
@@ -91,15 +91,15 @@ export default function ChurnSimulator({ onClose }: { onClose?: () => void } = {
         <div className="flex items-center gap-3">
           <button
             onClick={resetToBaseline}
-            className="flex items-center gap-2 text-xs font-mono text-white/50 hover:text-white px-3 py-1.5 rounded-full border border-white/10 hover:border-white/30 transition-colors"
+            className="flex items-center gap-2 text-xs font-mono text-white/50 hover:text-white px-3 py-1.5 rounded-full border border-white/10 hover:border-white/30 transition-colors cursor-pointer"
           >
             <RefreshCw size={12} />
-            <span>Reset Inputs</span>
+            <span>Reset</span>
           </button>
           {onClose && (
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-1.5 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Close"
             >
               <X size={18} />

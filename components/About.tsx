@@ -233,7 +233,7 @@ export default function About() {
             transition={{ duration: 0.3 }}
             className="flex flex-col items-center justify-center text-center"
           >
-            <div className="text-white text-[22px] sm:text-[30px] md:text-[38px] lg:text-[44px] leading-[1.38] md:leading-[1.42] tracking-tight flex flex-wrap justify-center text-center">
+            <div className="text-white text-[19px] sm:text-[28px] md:text-[36px] lg:text-[44px] leading-[1.4] md:leading-[1.42] tracking-tight flex flex-wrap justify-center text-center">
               {BIO_SEGMENTS.map((seg, sIdx) => {
                 const words = seg.text.split(" ").filter((w) => w.length > 0);
                 const highlight = seg.highlightKey ? HIGHLIGHTS[seg.highlightKey] : undefined;
@@ -244,6 +244,9 @@ export default function About() {
                       key={sIdx}
                       onMouseEnter={() => setActiveTooltip(highlight)}
                       onMouseLeave={() => setActiveTooltip(null)}
+                      onClick={() =>
+                        setActiveTooltip((prev) => (prev?.id === highlight.id ? null : highlight))
+                      }
                       className="relative inline-flex items-center mx-[0.1em] group cursor-pointer"
                     >
                       {/* Highlighted Words with Accent Blooming */}
@@ -270,7 +273,7 @@ export default function About() {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 6, scale: 0.92 }}
                             transition={{ duration: 0.18, ease: "easeOut" }}
-                            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-30 pointer-events-auto min-w-[220px] max-w-xs"
+                            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-30 pointer-events-auto w-[240px] max-w-[85vw]"
                           >
                             <a
                               href={highlight.linkHref || "#work"}
@@ -339,7 +342,7 @@ export default function About() {
             </div>
 
             {/* Code Body */}
-            <pre className="p-5 sm:p-7 overflow-x-auto text-xs sm:text-sm text-white/90 leading-relaxed no-scrollbar">
+            <pre className="p-4 sm:p-7 overflow-x-auto text-[11px] sm:text-xs md:text-sm text-white/90 leading-relaxed no-scrollbar touch-pan-x">
               <code>
                 <span className="text-purple-400">from</span> dataclasses <span className="text-purple-400">import</span> dataclass{"\n"}
                 <span className="text-purple-400">from</span> typing <span className="text-purple-400">import</span> List{"\n\n"}
@@ -364,17 +367,17 @@ export default function About() {
         )}
 
         {/* Current Focus & Philosophy Bottom Ribbon */}
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-3 text-xs font-mono">
-          <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 backdrop-blur-sm">
+        <div className="mt-12 sm:mt-16 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-xs font-mono">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-[#22C55E]" />
             <span>Exploring: Low-Latency RAG &amp; Quantized Edge Vision</span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 backdrop-blur-sm">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 backdrop-blur-sm">
             <span>📍 Bengaluru, India</span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 backdrop-blur-sm">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 backdrop-blur-sm">
             <span>⚡ Mindset: End-to-End Ownership</span>
           </div>
         </div>

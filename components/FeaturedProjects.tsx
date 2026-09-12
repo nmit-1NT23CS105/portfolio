@@ -87,8 +87,17 @@ function ProjectCard({
   onOpenChurnSimulator?: () => void;
 }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isMobile) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
@@ -101,7 +110,7 @@ function ProjectCard({
 
   return (
     <div
-      className="h-screen flex items-center justify-center sticky top-0 perspective-1000 px-4 sm:px-6"
+      className="min-h-screen h-[100dvh] flex items-center justify-center sticky top-0 perspective-1000 px-3 sm:px-6"
     >
       <motion.div
         onMouseMove={handleMouseMove}
@@ -112,32 +121,32 @@ function ProjectCard({
         }}
         transition={{ type: "spring", stiffness: 180, damping: 20 }}
         style={{
-          top: `calc(-2% + ${project.topOffset}px)`,
+          top: `calc(${isMobile ? "0px" : "-2%"} + ${project.topOffset * (isMobile ? 0.35 : 1)}px)`,
         }}
-        className="relative flex flex-col w-[95vw] max-w-[1400px] h-[84vh] md:h-[82vh] rounded-[28px] md:rounded-[36px] p-6 sm:p-8 md:p-12 origin-top border border-white/10 bg-white/5 backdrop-blur-[40px] shadow-[0_25px_60px_rgba(0,0,0,0.8)] overflow-hidden"
+        className="relative flex flex-col w-[96vw] sm:w-[94vw] max-w-[1400px] max-h-[90dvh] lg:h-[82vh] rounded-[24px] sm:rounded-[32px] md:rounded-[36px] p-5 sm:p-8 md:p-12 origin-top border border-white/10 bg-white/5 backdrop-blur-[40px] shadow-[0_25px_60px_rgba(0,0,0,0.8)] overflow-y-auto lg:overflow-hidden no-scrollbar"
       >
-        <div className="relative z-10 flex flex-col lg:flex-row h-full gap-8 lg:gap-14">
+        <div className="relative z-10 flex flex-col lg:flex-row h-full gap-5 sm:gap-8 lg:gap-14">
           {/* Left Column: Details */}
-          <div className="lg:w-[42%] flex flex-col justify-between py-2 overflow-y-auto no-scrollbar">
-            <div className="space-y-4 md:space-y-5">
+          <div className="lg:w-[46%] flex flex-col justify-between py-1 lg:py-2">
+            <div className="space-y-3 sm:space-y-4 md:space-y-5">
               {/* Year & Category Pill */}
-              <div className="flex items-center gap-3 text-white/50 text-xs md:text-sm font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-2.5 text-white/50 text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-widest">
                 <span>{project.year}</span>
                 <span>•</span>
                 <span className="text-[#22c55e]">{project.category}</span>
               </div>
 
               {/* Title */}
-              <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-display font-medium text-white leading-[0.98]">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-medium text-white leading-[1.02] tracking-tight">
                 {project.title}
               </h3>
 
               {/* Stack Pills */}
-              <div className="flex flex-wrap gap-2 pt-1">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-0.5">
                 {project.stack.map((item) => (
                   <span
                     key={item}
-                    className="text-xs font-mono font-medium px-3 py-1 rounded-full bg-white/10 text-white/80 border border-white/10"
+                    className="text-[11px] sm:text-xs font-mono font-medium px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-white/10 text-white/80 border border-white/10"
                   >
                     {item}
                   </span>
@@ -145,22 +154,22 @@ function ProjectCard({
               </div>
 
               {/* Description */}
-              <p className="text-white/70 text-sm sm:text-base leading-relaxed font-sans-clean max-w-lg">
+              <p className="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed font-sans-clean max-w-lg line-clamp-4 sm:line-clamp-none">
                 {project.description}
               </p>
             </div>
 
             {/* Action Buttons */}
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-2 sm:gap-3">
               {project.liveDemo && (
                 <a
                   href={project.liveDemo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-white text-black text-sm sm:text-base font-semibold hover:bg-white/90 transition-all hover:scale-105 active:scale-95 shadow-lg"
+                  className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full bg-white text-black text-xs sm:text-sm md:text-base font-semibold hover:bg-white/90 transition-all hover:scale-105 active:scale-95 shadow-lg"
                 >
                   <span>Live Demo</span>
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                 </a>
               )}
 
@@ -168,18 +177,18 @@ function ProjectCard({
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-white/20 text-white text-sm sm:text-base font-semibold hover:bg-white/10 transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
+                className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full border border-white/20 text-white text-xs sm:text-sm md:text-base font-semibold hover:bg-white/10 transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
               >
                 <span>GitHub</span>
-                <GithubIcon className="w-4 h-4" />
+                <GithubIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </a>
 
               {/* Deep Dive Case Study Modal Trigger */}
               <button
                 onClick={() => onOpenCaseStudy(projectDetailsMap[project.id])}
-                className="flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-white/10 text-white text-sm sm:text-base font-semibold hover:bg-white/20 border border-white/15 transition-all hover:scale-105 active:scale-95 backdrop-blur-md"
+                className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full bg-white/10 text-white text-xs sm:text-sm md:text-base font-semibold hover:bg-white/20 border border-white/15 transition-all hover:scale-105 active:scale-95 backdrop-blur-md cursor-pointer"
               >
-                <Code2 className="w-4 h-4 text-[#38bdf8]" />
+                <Code2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#38bdf8]" />
                 <span>Deep Dive</span>
               </button>
 
@@ -187,9 +196,9 @@ function ProjectCard({
               {project.id === 1 && onOpenChurnSimulator && (
                 <button
                   onClick={onOpenChurnSimulator}
-                  className="flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-emerald-500/20 text-emerald-300 text-sm sm:text-base font-semibold hover:bg-emerald-500/30 border border-emerald-500/40 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(34,197,94,0.15)]"
+                  className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs sm:text-sm md:text-base font-semibold hover:bg-emerald-500/30 border border-emerald-500/40 transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(34,197,94,0.15)] cursor-pointer"
                 >
-                  <Sparkles className="w-4 h-4 text-[#22C55E]" />
+                  <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#22C55E]" />
                   <span>Test Model Live</span>
                 </button>
               )}
@@ -199,7 +208,7 @@ function ProjectCard({
           {/* Right Column: Interactive Image Preview */}
           <div
             onClick={() => onOpenCaseStudy(projectDetailsMap[project.id])}
-            className="relative flex-1 w-full h-[260px] sm:h-[340px] lg:h-full rounded-[20px] overflow-hidden border border-white/10 shadow-inner flex items-center justify-center bg-black/40 group cursor-pointer"
+            className="relative flex-1 w-full h-[180px] sm:h-[260px] lg:h-full rounded-[18px] sm:rounded-[20px] overflow-hidden border border-white/10 shadow-inner flex items-center justify-center bg-black/40 group cursor-pointer shrink-0"
           >
             <div className="w-full h-full relative transition-transform duration-700 ease-out group-hover:scale-105">
               <Image
@@ -210,10 +219,10 @@ function ProjectCard({
                 className="object-contain opacity-95 group-hover:opacity-100 transition-opacity p-2 sm:p-4"
               />
             </div>
-            {/* Hover overlay hint */}
+            {/* Hover/Tap hint */}
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-xs">
-              <span className="px-5 py-2.5 rounded-full bg-white text-black text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 shadow-2xl">
-                <Code2 size={14} /> Click for Case Study &amp; Code
+              <span className="px-4 py-2 rounded-full bg-white text-black text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 shadow-2xl">
+                <Code2 size={13} /> Case Study &amp; Code
               </span>
             </div>
           </div>

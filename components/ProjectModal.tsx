@@ -169,15 +169,15 @@ export default function ProjectModal({
             className="relative w-full max-w-4xl bg-[#141414] border border-white/15 rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.9)] overflow-hidden z-10 my-auto text-white flex flex-col max-h-[88vh]"
           >
             {/* Header Bar */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10 bg-[#1a1a1a] shrink-0">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-5 border-b border-white/10 bg-[#1a1a1a] shrink-0">
               <div className="flex items-center gap-3">
-                <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#22c55e] bg-white/5 px-2.5 py-1 rounded">
+                <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-widest text-[#22c55e] bg-white/5 px-2.5 py-1 rounded">
                   {project.year} • {project.category}
                 </span>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="p-1.5 sm:p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X size={20} />
@@ -187,35 +187,35 @@ export default function ProjectModal({
             {/* Scrollable Modal Content */}
             <div
               data-lenis-prevent
-              className="p-6 sm:p-8 md:p-10 overflow-y-auto overscroll-contain space-y-8 flex-1"
+              className="p-4 sm:p-8 md:p-10 overflow-y-auto overscroll-contain space-y-6 sm:space-y-8 flex-1"
             >
               {/* Title & One-line Summary */}
               <div>
-                <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-white mb-3">
+                <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-white mb-2 sm:mb-3">
                   {project.title}
                 </h2>
-                <p className="text-white/70 text-sm sm:text-base leading-relaxed font-sans-clean">
+                <p className="text-white/70 text-xs sm:text-base leading-relaxed font-sans-clean">
                   {project.description}
                 </p>
               </div>
 
               {/* Banner Image Preview */}
-              <div className="relative w-full h-[220px] sm:h-[300px] rounded-2xl overflow-hidden border border-white/10 bg-black/60">
+              <div className="relative w-full h-[180px] sm:h-[300px] rounded-2xl overflow-hidden border border-white/10 bg-black/60">
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-contain p-4"
+                  className="object-contain p-3 sm:p-4"
                 />
               </div>
 
               {/* Architecture Overview */}
-              <div className="bg-white/5 p-6 rounded-2xl border border-white/10 space-y-2">
+              <div className="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 space-y-2">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase text-[#38bdf8]">
                   <Layers size={15} />
                   <span>System Architecture &amp; Data Pipeline</span>
                 </div>
-                <p className="text-sm text-white/80 leading-relaxed font-sans-clean">
+                <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-sans-clean">
                   {project.architecture}
                 </p>
               </div>
@@ -226,11 +226,11 @@ export default function ProjectModal({
                   <Cpu size={15} />
                   <span>Key Engineering Decisions &amp; Challenges Solved</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                   {project.challengesSolved.map((item, idx) => (
                     <div
                       key={idx}
-                      className="p-4 rounded-xl bg-black/40 border border-white/10 text-xs text-white/75 font-sans-clean leading-relaxed flex items-start gap-2.5"
+                      className="p-3.5 sm:p-4 rounded-xl bg-black/40 border border-white/10 text-xs text-white/75 font-sans-clean leading-relaxed flex items-start gap-2.5"
                     >
                       <ShieldCheck size={16} className="text-[#22c55e] flex-shrink-0 mt-0.5" />
                       <span>{item}</span>
@@ -245,31 +245,31 @@ export default function ProjectModal({
                   <Code2 size={15} />
                   <span>Production API Implementation Sample</span>
                 </div>
-                <pre className="p-4 rounded-xl bg-[#080808] border border-white/10 text-xs font-mono text-green-400 overflow-x-auto leading-relaxed">
+                <pre className="p-3.5 sm:p-4 rounded-xl bg-[#080808] border border-white/10 text-[11px] sm:text-xs font-mono text-green-400 overflow-x-auto leading-relaxed touch-pan-x">
                   {project.codeSnippet}
                 </pre>
               </div>
 
               {/* Stack badges & Actions */}
               <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {project.stack.map((t) => (
                     <span
                       key={t}
-                      className="text-xs font-mono px-3 py-1 rounded-full bg-white/10 text-white/80"
+                      className="text-[11px] sm:text-xs font-mono px-2.5 py-1 rounded-full bg-white/10 text-white/80"
                     >
                       {t}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
                   {project.liveDemo && (
                     <a
                       href={project.liveDemo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-white text-black text-sm font-semibold hover:bg-white/90 transition-all hover:scale-105"
+                      className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 rounded-full bg-white text-black text-xs sm:text-sm font-semibold hover:bg-white/90 transition-all hover:scale-105"
                     >
                       <span>Live Demo</span>
                       <ExternalLink size={14} />
@@ -279,7 +279,7 @@ export default function ProjectModal({
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-2.5 rounded-full border border-white/20 text-white text-sm font-semibold hover:bg-white/10 transition-all hover:scale-105"
+                    className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 rounded-full border border-white/20 text-white text-xs sm:text-sm font-semibold hover:bg-white/10 transition-all hover:scale-105"
                   >
                     <span>GitHub</span>
                     <ExternalLink size={14} />

@@ -184,15 +184,15 @@ export default function SqlPlayground() {
   }, [query]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto rounded-3xl bg-[#111] border border-white/10 p-6 sm:p-8 md:p-10 shadow-2xl my-12 text-white font-sans-clean">
+    <div className="w-full max-w-5xl mx-auto rounded-2xl sm:rounded-3xl bg-[#111] border border-white/10 p-4 sm:p-8 md:p-10 shadow-2xl my-8 sm:my-12 text-white font-sans-clean">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5 sm:pb-6 mb-6 sm:mb-8">
         <div>
           <div className="flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-[#38bdf8] uppercase mb-1">
             <Database size={14} />
             <span>Interactive Database Console</span>
           </div>
-          <h3 className="font-display text-2xl sm:text-3xl font-bold uppercase text-white tracking-tight">
+          <h3 className="font-display text-xl sm:text-3xl font-bold uppercase text-white tracking-tight">
             In-Browser SQL Query Playground
           </h3>
           <p className="text-white/60 text-xs sm:text-sm mt-1">
@@ -201,12 +201,12 @@ export default function SqlPlayground() {
         </div>
 
         {/* Preset chips */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {PRESETS.map((p) => (
             <button
               key={p.title}
               onClick={() => setQuery(p.query)}
-              className="text-xs font-mono px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors"
+              className="text-[11px] sm:text-xs font-mono px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-colors cursor-pointer"
             >
               {p.title}
             </button>
@@ -215,30 +215,30 @@ export default function SqlPlayground() {
       </div>
 
       {/* SQL Editor Input Box */}
-      <div className="relative rounded-2xl bg-[#080808] border border-white/10 overflow-hidden mb-6">
-        <div className="flex items-center justify-between px-4 py-2.5 bg-[#161616] border-b border-white/10 font-mono text-xs text-white/60">
+      <div className="relative rounded-2xl bg-[#080808] border border-white/10 overflow-hidden mb-5 sm:mb-6">
+        <div className="flex items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 bg-[#161616] border-b border-white/10 font-mono text-xs text-white/60">
           <div className="flex items-center gap-2">
             <Code2 size={14} className="text-[#22c55e]" />
             <span>query.sql</span>
           </div>
-          <span className="text-[11px] text-white/40">Edit query or pick preset above</span>
+          <span className="text-[10px] sm:text-[11px] text-white/40">Edit query or pick preset above</span>
         </div>
 
         <textarea
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           rows={3}
-          className="w-full bg-transparent p-4 font-mono text-xs sm:text-sm text-green-400 focus:outline-none resize-none leading-relaxed"
+          className="w-full bg-transparent p-3 sm:p-4 font-mono text-xs sm:text-sm text-green-400 focus:outline-none resize-none leading-relaxed"
           placeholder="SELECT * FROM telco_customers LIMIT 5;"
         />
       </div>
 
       {/* Query Stats & Plan */}
-      <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono pb-4 border-b border-white/10 mb-4 text-white/60">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] sm:text-xs font-mono pb-4 border-b border-white/10 mb-4 text-white/60">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <span className="flex items-center gap-1.5 text-white/90">
             <CheckCircle size={14} className="text-[#22c55e]" />
-            <span className="font-bold text-white">{results.length}</span> rows returned
+            <span className="font-bold text-white">{results.length}</span> rows
           </span>
           <span>•</span>
           <span>
@@ -249,7 +249,7 @@ export default function SqlPlayground() {
           </span>
         </div>
 
-        <div className="text-[11px] text-white/50 truncate max-w-md">
+        <div className="text-[10px] sm:text-[11px] text-white/50 truncate max-w-xs sm:max-w-md">
           {plan}
         </div>
       </div>
@@ -260,7 +260,7 @@ export default function SqlPlayground() {
           ⚠️ {error}
         </div>
       ) : results.length > 0 ? (
-        <div className="overflow-x-auto rounded-xl border border-white/10 bg-[#080808]">
+        <div className="overflow-x-auto rounded-xl border border-white/10 bg-[#080808] touch-pan-x">
           <table className="w-full text-left text-xs font-mono">
             <thead className="bg-[#181818] border-b border-white/10 text-white/70 uppercase">
               <tr>

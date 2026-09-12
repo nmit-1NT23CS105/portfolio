@@ -185,9 +185,9 @@ export default function Playground() {
               {[...labItems, ...labItems].map((item, idx) => (
                 <div
                   key={`${item.id}-${idx}`}
-                  className="flex flex-col items-center gap-4 flex-shrink-0 group/card cursor-pointer"
+                  className="flex flex-col items-center gap-3 sm:gap-4 flex-shrink-0 group/card cursor-pointer"
                 >
-                  <div className="relative w-64 sm:w-80 h-[380px] sm:h-[460px] rounded-2xl overflow-hidden border border-white/10 bg-black/60 transition-all duration-500 hover:border-purple-500/50 hover:shadow-[0_0_50px_rgba(168,85,247,0.25)] hover:scale-[1.02]">
+                  <div className="relative w-56 sm:w-80 h-[330px] sm:h-[460px] rounded-2xl overflow-hidden border border-white/10 bg-black/60 transition-all duration-500 hover:border-purple-500/50 hover:shadow-[0_0_50px_rgba(168,85,247,0.25)] hover:scale-[1.02]">
                     <Image
                       src={item.image}
                       alt={item.title}
@@ -195,24 +195,24 @@ export default function Playground() {
                       className="w-full h-full object-cover object-top transition-transform duration-700 group-hover/card:scale-105"
                     />
 
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                      <span className="text-xs font-mono text-purple-400 font-bold uppercase tracking-wider mb-1">
+                    {/* Gradient Overlay & Controls (Always visible on mobile touch, hover on desktop) */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent opacity-95 sm:opacity-0 sm:group-hover/card:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 sm:p-6">
+                      <span className="text-[10px] sm:text-xs font-mono text-purple-400 font-bold uppercase tracking-wider mb-1">
                         {item.tag}
                       </span>
-                      <h4 className="text-white font-display text-xl font-bold uppercase mb-4">
+                      <h4 className="text-white font-display text-lg sm:text-xl font-bold uppercase mb-3 sm:mb-4">
                         {item.title}
                       </h4>
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2.5 sm:gap-3">
                         {item.link && (
                           <a
                             href={item.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2.5 rounded-full bg-white text-black hover:bg-white/90 transition-colors"
+                            className="p-2 sm:p-2.5 rounded-full bg-white text-black hover:bg-white/90 transition-colors"
                             aria-label={`Live demo of ${item.title}`}
                           >
-                            <ExternalLink size={16} />
+                            <ExternalLink size={15} />
                           </a>
                         )}
                         {item.github && (
@@ -220,7 +220,7 @@ export default function Playground() {
                             href={item.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2.5 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
+                            className="p-2 sm:p-2.5 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
                             aria-label={`GitHub repo of ${item.title}`}
                           >
                             <GithubIcon className="w-4 h-4" />
@@ -231,7 +231,7 @@ export default function Playground() {
                   </div>
 
                   {/* Subtle caption */}
-                  <h3 className="text-white font-mono text-xs opacity-40 group-hover/card:opacity-100 transition-opacity uppercase tracking-[0.25em]">
+                  <h3 className="text-white font-mono text-[11px] sm:text-xs opacity-60 sm:opacity-40 group-hover/card:opacity-100 transition-opacity uppercase tracking-[0.2em] sm:tracking-[0.25em]">
                     {item.title}
                   </h3>
                 </div>

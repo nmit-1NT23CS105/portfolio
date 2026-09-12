@@ -159,7 +159,7 @@ Content-Type: application/json
       {/* Floating Trigger Badge */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-[120] flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#1c1c1c]/90 hover:bg-[#252525] border border-white/15 text-white/90 shadow-2xl backdrop-blur-xl text-xs font-mono transition-all hover:scale-105 active:scale-95 group"
+        className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[120] flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-[#1c1c1c]/90 hover:bg-[#252525] border border-white/15 text-white/90 shadow-2xl backdrop-blur-xl text-xs font-mono transition-all hover:scale-105 active:scale-95 group cursor-pointer"
         aria-label="Open Developer Terminal"
       >
         <TerminalIcon size={14} className="text-[#22C55E] transition-transform group-hover:rotate-12" />
@@ -175,7 +175,7 @@ Content-Type: application/json
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed bottom-20 right-4 sm:right-6 z-[130] w-[94vw] sm:w-[480px] h-[360px] sm:h-[400px] bg-[#0c0c0c]/95 backdrop-blur-2xl border border-white/15 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden font-mono"
+            className="fixed inset-x-3 bottom-16 sm:inset-x-auto sm:right-6 sm:bottom-20 z-[130] sm:w-[480px] h-[340px] sm:h-[400px] max-h-[70vh] bg-[#0c0c0c]/95 backdrop-blur-2xl border border-white/15 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden font-mono"
           >
             {/* Window Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-[#171717] border-b border-white/10 select-none">
