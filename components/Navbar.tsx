@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { SquareArrowOutUpRight, X } from "lucide-react";
+import { SquareArrowOutUpRight, X, FileText } from "lucide-react";
+import ResumeModal from "@/components/ResumeModal";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -17,6 +18,7 @@ const navLinks = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [resumeModalOpen, setResumeModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,14 +29,14 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (mobileMenuOpen) {
+    if (mobileMenuOpen || resumeModalOpen) {
       const prev = document.body.style.overflow;
       document.body.style.overflow = "hidden";
       return () => {
         document.body.style.overflow = prev;
       };
     }
-  }, [mobileMenuOpen]);
+  }, [mobileMenuOpen, resumeModalOpen]);
 
   const resumeUrl =
     "https://drive.google.com/file/d/1qjs2OjaPOBqXzvPcmZdoJbPHgLXzPPoS/view?usp=sharing";
@@ -110,12 +112,10 @@ export default function Navbar() {
               </a>
             ))}
 
-            {/* Resume Button with Inverted Rollover Animation */}
-            <a
-              href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative h-10 pl-5 pr-4 flex items-center overflow-hidden bg-white/5 border border-white/10 rounded-full hover:border-white transition-colors"
+            {/* Resume Trigger with Inverted Rollover Animation */}
+            <button
+              onClick={() => setResumeModalOpen(true)}
+              className="group relative h-10 pl-5 pr-4 flex items-center overflow-hidden bg-white/5 border border-white/10 rounded-full hover:border-white transition-colors cursor-pointer"
             >
               <div className="relative flex items-center gap-2 transition-all duration-500 ease-in-out group-hover:-translate-y-full">
                 <span className="text-[14px] font-medium text-white/90">Resume</span>
@@ -128,7 +128,7 @@ export default function Navbar() {
                 <span className="text-[14px] font-medium text-black">Resume</span>
                 <SquareArrowOutUpRight size={14} className="text-black" />
               </div>
-            </a>
+            </button>
           </div>
 
           {/* Mobile Hamburger Trigger */}
@@ -172,46 +172,64 @@ export default function Navbar() {
               transition={{ duration: 0.2 }}
               className="fixed inset-x-4 top-24 z-[99] lg:hidden bg-[#141414]/95 backdrop-blur-2xl border border-white/15 rounded-3xl p-6 shadow-2xl flex flex-col gap-4 text-center max-h-[calc(100dvh-120px)] overflow-y-auto"
             >
-            <div className="flex justify-between items-center pb-3 border-b border-white/10">
-              <span className="text-sm font-semibold tracking-wider text-white/70 uppercase">
-                Menu
-              </span>
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-white/70 hover:text-white p-1"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-3 py-2">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
+              <div className="flex justify-between items-center pb-3 border-b border-white/10">
+                <span className="text-sm font-semibold tracking-wider text-white/70 uppercase">
+                  Menu
+                </span>
+                <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-lg font-medium text-white/80 hover:text-white py-2 hover:bg-white/5 rounded-xl transition-colors"
+                  className="text-white/70 hover:text-white p-1"
                 >
-                  {link.name}
-                </a>
-              ))}
-            </div>
+                  <X size={20} />
+                </button>
+              </div>
 
-            <a
-              href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-white text-black font-semibold text-base hover:bg-white/90 transition-colors mt-2"
-            >
-              <span>View Resume</span>
-              <SquareArrowOutUpRight size={16} />
-            </a>
-          </motion.div>
+              <div className="flex flex-col gap-3 py-2">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-lg font-medium text-white/80 hover:text-white py-2 hover:bg-white/5 rounded-xl transition-colors"
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </div>
+
+              <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-white/10">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setResumeModalOpen(true);
+                  }}
+                  className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-white text-black font-semibold text-base hover:bg-white/90 transition-colors cursor-pointer"
+                >
+                  <FileText size={16} />
+                  <span>Interactive Resume</span>
+                </button>
+
+                <a
+                  href={resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-white/5 border border-white/10 text-white/80 font-mono text-xs hover:bg-white/10 transition-colors"
+                >
+                  <span>Google Drive PDF</span>
+                  <SquareArrowOutUpRight size={13} />
+                </a>
+              </div>
+            </motion.div>
           </>
         )}
       </AnimatePresence>
+
+      {/* Interactive Resume Modal */}
+      <ResumeModal
+        isOpen={resumeModalOpen}
+        onClose={() => setResumeModalOpen(false)}
+      />
     </>
   );
 }
-

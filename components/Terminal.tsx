@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal as TerminalIcon, X, Maximize2, Minimize2 } from "lucide-react";
 
@@ -53,6 +54,7 @@ export default function Terminal() {
             <div><span className="text-[#38bdf8]">skills</span> — Tech stack matrix</div>
             <div><span className="text-[#38bdf8]">projects</span> — Featured works</div>
             <div><span className="text-[#38bdf8]">education</span> — University &amp; CGPA</div>
+            <div><span className="text-[#38bdf8]">resume</span> — View full CV &amp; PDF</div>
             <div><span className="text-[#38bdf8]">contact</span> — Direct email &amp; phone</div>
             <div><span className="text-[#38bdf8]">curl /predict</span> — Churn API test</div>
             <div><span className="text-[#38bdf8]">clear</span> — Clear console</div>
@@ -102,6 +104,22 @@ export default function Terminal() {
         );
         break;
 
+      case "resume":
+      case "cv":
+        response = (
+          <div className="space-y-1.5 text-xs font-mono">
+            <p className="text-[#22C55E] font-bold">KATARU RAHUL REDDY — RESUME SUMMARY</p>
+            <p>• Education: NMIT Bengaluru B.E. CSE (CGPA 8.55)</p>
+            <p>• Stack: Python, SQL, FastAPI, Scikit-learn, OpenCV, YOLOv8, MySQL</p>
+            <p>• Projects: Customer Churn Platform (83.2% recall), AI Doc Intelligence (37 tests), Driver Safety Vision (30+ FPS)</p>
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              <a href="/resume" className="text-[#38bdf8] underline">Open Interactive Resume (/resume) ↗</a>
+              <a href="https://drive.google.com/file/d/1qjs2OjaPOBqXzvPcmZdoJbPHgLXzPPoS/view?usp=sharing" target="_blank" rel="noreferrer" className="text-[#22C55E] underline">Download PDF (Google Drive) ↗</a>
+            </div>
+          </div>
+        );
+        break;
+
       case "contact":
         response = (
           <div className="text-xs space-y-1">
@@ -143,8 +161,8 @@ Content-Type: application/json
 
       default:
         response = (
-          <p className="text-xs text-red-400">
-            command not found: {trimmed}. Type &apos;help&apos; for list.
+          <p className="text-xs text-red-400 font-mono">
+            zsh: command not found: {trimmed}. Type &apos;help&apos; for list.
           </p>
         );
         break;
@@ -156,72 +174,75 @@ Content-Type: application/json
 
   return (
     <>
-      {/* Floating Trigger Badge */}
-      <button
+      {/* Floating Toggle Button */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-[120] flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full bg-[#1c1c1c]/90 hover:bg-[#252525] border border-white/15 text-white/90 shadow-2xl backdrop-blur-xl text-xs font-mono transition-all hover:scale-105 active:scale-95 group cursor-pointer"
-        aria-label="Open Developer Terminal"
+        className="fixed bottom-6 right-6 z-[80] flex items-center gap-2 bg-[#1a1a1a]/90 hover:bg-[#262626] border border-white/10 hover:border-white/20 text-white/90 px-3.5 py-2 rounded-full shadow-2xl backdrop-blur-xl transition-all hover:scale-105 active:scale-95 group text-xs font-mono"
+        aria-label="Toggle developer terminal"
       >
-        <TerminalIcon size={14} className="text-[#22C55E] transition-transform group-hover:rotate-12" />
-        <span className="font-semibold">CLI Terminal</span>
-      </button>
+        <TerminalIcon size={14} className="text-[#22C55E] group-hover:rotate-12 transition-transform" />
+        <span className="hidden sm:inline font-semibold">CLI Shell</span>
+      </motion.button>
 
-      {/* Terminal Window Modal */}
+      {/* Terminal Window Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            data-lenis-prevent
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed inset-x-3 bottom-16 sm:inset-x-auto sm:right-6 sm:bottom-20 z-[130] sm:w-[480px] h-[340px] sm:h-[400px] max-h-[70vh] bg-[#0c0c0c]/95 backdrop-blur-2xl border border-white/15 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden font-mono"
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="fixed bottom-20 right-4 sm:right-6 z-[85] w-[calc(100vw-32px)] sm:w-[460px] h-[340px] bg-[#0c0c0c]/95 border border-white/15 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden backdrop-blur-2xl"
           >
-            {/* Window Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-[#171717] border-b border-white/10 select-none">
+            {/* Window Title Bar */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-white/5 border-b border-white/10 select-none">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/80 cursor-pointer" onClick={() => setIsOpen(false)} />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <span className="text-xs text-white/60 ml-2 font-medium">rahul@portfolio:~</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block cursor-pointer" onClick={() => setIsOpen(false)} />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
+                <span className="ml-2 text-xs font-mono text-white/50">rahul@nmit:~</span>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-white/40 hover:text-white transition-colors"
+                aria-label="Close terminal"
               >
-                <X size={15} />
+                <X size={14} />
               </button>
             </div>
 
-            {/* Terminal Body */}
-            <div
-              data-lenis-prevent
-              className="flex-1 p-4 overflow-y-auto overscroll-contain space-y-3 text-xs leading-relaxed"
-            >
-              {history.map((item, idx) => (
-                <div key={idx} className="space-y-1">
+            {/* Scrollable Command Output Body */}
+            <div className="flex-1 p-4 overflow-y-auto font-mono text-xs space-y-3 no-scrollbar">
+              {history.map((h, i) => (
+                <div key={i} className="space-y-1">
                   <div className="flex items-center gap-2 text-white/50">
                     <span className="text-[#22C55E]">➜</span>
-                    <span className="text-white/70">~</span>
-                    <span className="text-white font-semibold">{item.cmd}</span>
+                    <span className="text-[#38bdf8]">~</span>
+                    <span className="text-white/90">{h.cmd}</span>
                   </div>
-                  <div>{item.output}</div>
+                  <div className="pl-4 text-white/80">{h.output}</div>
                 </div>
               ))}
               <div ref={bottomRef} />
             </div>
 
-            {/* Input Line */}
-            <form onSubmit={handleCommand} className="flex items-center gap-2 px-4 py-2.5 bg-[#121212] border-t border-white/10">
-              <span className="text-[#22C55E] text-xs">➜</span>
-              <span className="text-white/50 text-xs">~</span>
+            {/* Command Input Prompt */}
+            <form
+              onSubmit={handleCommand}
+              className="flex items-center gap-2 px-4 py-2.5 bg-black/60 border-t border-white/10"
+            >
+              <span className="text-[#22C55E] text-xs font-mono font-bold">➜</span>
+              <span className="text-[#38bdf8] text-xs font-mono">~</span>
               <input
                 ref={inputRef}
                 type="text"
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
-                placeholder="type 'help'..."
-                className="flex-1 bg-transparent border-none outline-none text-xs text-white placeholder-white/30 font-mono"
+                placeholder="type 'help', 'resume', 'skills'..."
+                className="flex-1 bg-transparent text-xs font-mono text-white placeholder-white/30 focus:outline-hidden"
               />
             </form>
           </motion.div>
@@ -230,4 +251,3 @@ Content-Type: application/json
     </>
   );
 }
-

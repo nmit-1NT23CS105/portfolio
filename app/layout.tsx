@@ -1,28 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Antonio, Space_Grotesk, Inter } from "next/font/google";
 import { ToastProvider } from "@/components/Toast";
 import "./globals.css";
-
-const antonio = Antonio({
-  variable: "--font-antonio",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Kataru Rahul Reddy — Computer Science & Backend/Data Developer",
@@ -57,10 +35,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${antonio.variable} ${spaceGrotesk.variable} ${inter.variable} dark scroll-smooth`}
-    >
+    <html lang="en" className="dark scroll-smooth">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=VT323&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="min-h-screen bg-[#0F0F0F] text-white font-sans-clean antialiased selection:bg-white selection:text-black">
         <ToastProvider>{children}</ToastProvider>
       </body>

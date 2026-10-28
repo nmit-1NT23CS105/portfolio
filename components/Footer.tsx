@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, MoveUp, Mail, Phone, MapPin, Copy } from "lucide-react";
+import { ArrowRight, MoveUp, Mail, Phone, MapPin, Copy, FileText } from "lucide-react";
 import { useToast } from "@/components/Toast";
 
 function GithubIcon({ className = "w-5 h-5" }: { className?: string }) {
@@ -133,7 +134,7 @@ export default function Footer() {
           </div>
         </motion.div>
 
-        {/* Primary CTA Button & Quick Email Presets */}
+        {/* Primary CTA Buttons & Quick Email Presets */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -141,13 +142,23 @@ export default function Footer() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex flex-col items-center gap-5 sm:gap-6 w-full"
         >
-          <a
-            href="mailto:katarurahul1014@gmail.com"
-            className="group relative flex items-center justify-center bg-[#0f0f0f] text-white px-8 sm:px-12 py-3.5 sm:py-5 rounded-full text-base sm:text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-black w-full sm:w-auto"
-          >
-            <span>Let&apos;s Connect</span>
-            <ArrowRight className="ml-2.5 w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+            <a
+              href="mailto:katarurahul1014@gmail.com"
+              className="group relative flex items-center justify-center bg-[#0f0f0f] text-white px-8 sm:px-12 py-3.5 sm:py-5 rounded-full text-base sm:text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-black w-full sm:w-auto"
+            >
+              <span>Let&apos;s Connect</span>
+              <ArrowRight className="ml-2.5 w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
+            </a>
+
+            <Link
+              href="/resume"
+              className="group relative flex items-center justify-center bg-white text-[#0f0f0f] border border-black/15 px-8 sm:px-10 py-3.5 sm:py-5 rounded-full text-base sm:text-xl font-bold transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-black w-full sm:w-auto"
+            >
+              <span>View Full Resume</span>
+              <FileText className="ml-2.5 w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:rotate-6 text-[#22C55E]" />
+            </Link>
+          </div>
 
           {/* Quick Email Templates */}
           <div className="flex flex-col items-center gap-2">
