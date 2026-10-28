@@ -123,18 +123,18 @@ function Word({
   accentColor?: string;
 }) {
   const opacity = useTransform(progress, range, [0.15, 1]);
-  const y = useTransform(progress, range, [6, 0]);
+  const y = useTransform(progress, range, [8, 0]);
   const color = useTransform(
     progress,
     range,
-    ["rgba(255, 255, 255, 0.15)", accentColor || "#ffffff"]
+    ["rgba(255, 255, 255, 0.2)", accentColor || "#ffffff"]
   );
 
   return (
-    <span className="relative inline-block mr-[0.28em] last:mr-0 will-change-transform">
+    <span className="relative inline-block mr-[0.26em] last:mr-0 will-change-transform">
       <motion.span
         style={{ opacity, y, color }}
-        className="inline-block transition-colors font-sans-clean font-medium"
+        className="inline-block transition-colors font-sans-clean font-medium select-text"
       >
         {word}
       </motion.span>{" "}
@@ -144,9 +144,11 @@ function Word({
 
 export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Reference-exact scroll offset: start illuminating when section enters viewport, complete at 60%
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start 0.85", "end 0.45"],
+    offset: ["start end", "end 0.6"],
   });
 
   const [viewMode, setViewMode] = useState<"story" | "dev">("story");
@@ -175,7 +177,7 @@ export default function About() {
       id="about"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative w-full bg-[#0F0F0F] flex flex-col items-center justify-center py-32 md:py-44 px-6 sm:px-10 md:px-16 overflow-hidden"
+      className="relative w-full bg-[#0F0F0F] flex flex-col items-center justify-center py-32 md:py-48 px-6 sm:px-10 md:px-16 overflow-hidden"
     >
       {/* Ambient Spotlight Radial Glow following cursor */}
       <div
@@ -233,7 +235,7 @@ export default function About() {
             transition={{ duration: 0.3 }}
             className="flex flex-col items-center justify-center text-center"
           >
-            <div className="text-white text-[19px] sm:text-[28px] md:text-[36px] lg:text-[44px] leading-[1.4] md:leading-[1.42] tracking-tight flex flex-wrap justify-center text-center">
+            <div className="text-white text-[20px] sm:text-[28px] md:text-[36px] lg:text-[44px] leading-[1.32] md:leading-[1.4] tracking-tight flex flex-wrap justify-center text-center">
               {BIO_SEGMENTS.map((seg, sIdx) => {
                 const words = seg.text.split(" ").filter((w) => w.length > 0);
                 const highlight = seg.highlightKey ? HIGHLIGHTS[seg.highlightKey] : undefined;
@@ -265,30 +267,28 @@ export default function About() {
                         );
                       })}
 
-                      {/* Interactive Floating Micro-Preview Badge */}
+                      {/* Floating Micro-Preview Tooltip Badge */}
                       <AnimatePresence>
                         {activeTooltip?.id === highlight.id && (
                           <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.92 }}
+                            initial={{ opacity: 0, y: 8, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 6, scale: 0.92 }}
-                            transition={{ duration: 0.18, ease: "easeOut" }}
-                            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-30 pointer-events-auto w-[240px] max-w-[85vw]"
+                            exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                            transition={{ duration: 0.18 }}
+                            className="absolute -top-16 left-1/2 -translate-x-1/2 z-50 pointer-events-auto min-w-[240px] max-w-[280px]"
                           >
                             <a
                               href={highlight.linkHref || "#work"}
-                              className="block p-3 rounded-2xl bg-[#1a1a1a]/95 backdrop-blur-xl border border-white/20 shadow-[0_15px_35px_rgba(0,0,0,0.8)] text-left"
+                              className="block p-3 rounded-2xl bg-[#1a1a1a]/95 backdrop-blur-xl border border-white/15 shadow-2xl text-left"
                             >
-                              <div className="flex items-center justify-between text-xs font-mono font-bold text-white mb-1">
+                              <div className="flex items-center justify-between text-xs font-mono font-bold mb-0.5">
                                 <span style={{ color: highlight.accent }}>{highlight.title}</span>
                                 <ExternalLink size={12} className="text-white/40" />
                               </div>
-                              <p className="text-[11px] font-mono text-white/70 leading-snug">
+                              <p className="text-[11px] font-sans text-white/70 leading-snug">
                                 {highlight.subtitle}
                               </p>
                             </a>
-                            {/* Down arrow indicator */}
-                            <div className="w-2.5 h-2.5 bg-[#1a1a1a] border-r border-b border-white/20 rotate-45 mx-auto -mt-1.5" />
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -302,7 +302,7 @@ export default function About() {
                   wordIndex++;
                   return (
                     <Word
-                      key={wIdx}
+                      key={`${sIdx}-${wIdx}`}
                       word={word}
                       range={[start, end]}
                       progress={scrollYProgress}
@@ -314,71 +314,52 @@ export default function About() {
           </motion.div>
         )}
 
-        {/* Mode 2: Interactive Dev / Code View */}
+        {/* Mode 2: Interactive Dev Editor View */}
         {viewMode === "dev" && (
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="w-full max-w-3xl mx-auto rounded-2xl bg-[#0c0c0c] border border-white/15 overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)] font-mono"
+            className="rounded-2xl border border-white/15 bg-[#121212] overflow-hidden shadow-2xl"
           >
-            {/* Editor Window Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-[#161616] border-b border-white/10 text-xs">
+            {/* Editor Top Bar */}
+            <div className="px-5 py-3 bg-[#181818] border-b border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                <span className="text-white/60 ml-2 font-medium">rahul_reddy.py</span>
+                <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
+                <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
+                <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
+                <span className="ml-3 text-xs font-mono text-white/60">rahul_reddy.py</span>
               </div>
 
               <button
                 onClick={() => copyToClipboard(DEV_CODE_SNIPPET, "Python snippet")}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-colors cursor-pointer text-xs"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-white/80 hover:text-white transition-all cursor-pointer"
               >
                 <Copy size={12} />
-                <span>Copy</span>
+                <span>Copy Code</span>
               </button>
             </div>
 
             {/* Code Body */}
-            <pre className="p-4 sm:p-7 overflow-x-auto text-[11px] sm:text-xs md:text-sm text-white/90 leading-relaxed no-scrollbar touch-pan-x">
-              <code>
-                <span className="text-purple-400">from</span> dataclasses <span className="text-purple-400">import</span> dataclass{"\n"}
-                <span className="text-purple-400">from</span> typing <span className="text-purple-400">import</span> List{"\n\n"}
-                <span className="text-amber-400">@dataclass</span>{"\n"}
-                <span className="text-blue-400">class</span> <span className="text-green-400 font-bold">KataruRahulReddy</span>:{"\n"}
-                {"    "}role: <span className="text-blue-400">str</span> = <span className="text-emerald-300">&quot;Backend &amp; Applied ML Developer&quot;</span>{"\n"}
-                {"    "}location: <span className="text-blue-400">str</span> = <span className="text-emerald-300">&quot;Bengaluru, Karnataka (IST)&quot;</span>{"\n"}
-                {"    "}education: <span className="text-blue-400">str</span> = <span className="text-emerald-300">&quot;NMIT Bengaluru (B.E. CSE, CGPA 8.55)&quot;</span>{"\n"}
-                {"    "}core_stack: <span className="text-blue-400">tuple</span> = (<span className="text-emerald-300">&quot;Python&quot;</span>, <span className="text-emerald-300">&quot;SQL&quot;</span>, <span className="text-emerald-300">&quot;FastAPI&quot;</span>, <span className="text-emerald-300">&quot;OpenCV&quot;</span>, <span className="text-emerald-300">&quot;MySQL&quot;</span>){"\n\n"}
-                {"    "}<span className="text-blue-400">def</span> <span className="text-yellow-400">core_philosophy</span>(<span className="text-rose-400">self</span>) -&gt; <span className="text-blue-400">str</span>:{"\n"}
-                {"        "}<span className="text-purple-400">return</span> <span className="text-emerald-300">&quot;Build end-to-end: from raw data to verified production APIs.&quot;</span>{"\n\n"}
-                {"    "}<span className="text-purple-400">async def</span> <span className="text-yellow-400">build_pipeline</span>(<span className="text-rose-400">self</span>, raw_data, requirement):{"\n"}
-                {"        "}<span className="text-white/40"># 1. Feature Engineering &amp; Schema Design</span>{"\n"}
-                {"        "}normalized = <span className="text-purple-400">await</span> <span className="text-rose-400">self</span>.transform(raw_data){"\n\n"}
-                {"        "}<span className="text-white/40"># 2. Predictive Intelligence &amp; Edge Vision</span>{"\n"}
-                {"        "}model_output = <span className="text-rose-400">self</span>.models[<span className="text-emerald-300">&quot;churn_or_vision&quot;</span>].predict(normalized){"\n\n"}
-                {"        "}<span className="text-white/40"># 3. High-Throughput Delivery Layer</span>{"\n"}
-                {"        "}<span className="text-purple-400">return</span> FastAPI.response(&#123;&quot;data&quot;: model_output, &quot;tests&quot;: <span className="text-amber-400">37</span>&#125;)
-              </code>
-            </pre>
+            <div className="p-6 overflow-x-auto text-xs sm:text-sm font-mono leading-relaxed bg-[#0e0e0e] text-white/90">
+              <pre>
+                <code>{DEV_CODE_SNIPPET}</code>
+              </pre>
+            </div>
           </motion.div>
         )}
 
         {/* Current Focus & Philosophy Bottom Ribbon */}
-        <div className="mt-12 sm:mt-16 flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-[11px] sm:text-xs font-mono">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-[#22C55E]" />
-            <span>Exploring: Low-Latency RAG &amp; Quantized Edge Vision</span>
+        <div className="mt-14 pt-8 border-t border-white/10 flex flex-wrap items-center justify-center md:justify-between gap-4 text-xs font-mono text-white/60">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#22c55e] animate-ping" />
+            <span>Currently: Building high-throughput ML APIs &amp; edge vision</span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 backdrop-blur-sm">
-            <span>📍 Bengaluru, India</span>
-          </div>
-
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/70 backdrop-blur-sm">
-            <span>⚡ Mindset: End-to-End Ownership</span>
+          <div className="flex items-center gap-4">
+            <span className="hidden sm:inline">📍 Bangalore, India</span>
+            <span>⚡ End-to-End Ownership</span>
           </div>
         </div>
       </div>

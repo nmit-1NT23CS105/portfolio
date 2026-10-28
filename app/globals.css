@@ -9,11 +9,27 @@
   }
 
   html {
-    scroll-behavior: smooth;
     color-scheme: dark;
     background-color: #0f0f0f;
     overflow-x: hidden;
     max-width: 100vw;
+  }
+
+  /* Lenis smooth scrolling rules to prevent conflicts */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
   }
 
   body {
@@ -23,6 +39,9 @@
     max-width: 100vw;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   ::selection {
@@ -60,6 +79,12 @@
 
 .backface-hidden {
   backface-visibility: hidden;
+}
+
+/* Hardware accelerated transform utility */
+.transform-gpu {
+  transform: translate3d(var(--tw-translate-x, 0), var(--tw-translate-y, 0), 0);
+  will-change: transform;
 }
 
 /* Custom dark sleek scrollbars */
@@ -101,6 +126,7 @@
   display: flex;
   width: max-content;
   animation: marquee 35s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee:hover {

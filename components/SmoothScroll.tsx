@@ -7,16 +7,18 @@ export default function SmoothScroll() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    // On touch / coarse pointer mobile devices, use native hardware-accelerated momentum scrolling
+    // On touch devices / mobile, prioritize native 120Hz hardware momentum scrolling
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const lenis = new Lenis({
-      duration: 1.15,
+      duration: 0.85,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 0.95,
+      touchMultiplier: 1.0,
+      wheelMultiplier: 1.05,
       prevent: (node) => {
-        // Never hijack scrolling on elements marked with data-lenis-prevent or scrollable containers
         return (
           node.hasAttribute("data-lenis-prevent") ||
           Boolean(node.closest?.("[data-lenis-prevent]")) ||

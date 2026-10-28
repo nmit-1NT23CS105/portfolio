@@ -123,11 +123,11 @@ function Card({
           scale,
           top: `calc(-5% + ${i * 25}px)`,
         }}
-        className="relative flex flex-col w-[95vw] max-w-[1400px] h-[82vh] rounded-[32px] p-6 sm:p-10 md:p-14 origin-top border border-white/10 bg-white/5 backdrop-blur-[40px] shadow-2xl overflow-hidden"
+        className="relative flex flex-col w-[95vw] max-w-[1400px] h-[82vh] md:h-[80vh] rounded-[32px] p-6 sm:p-8 md:p-14 origin-top border border-white/10 bg-white/5 backdrop-blur-[40px] shadow-2xl overflow-hidden will-change-transform transform-gpu"
       >
         <div className="relative z-10 flex flex-col md:flex-row h-full gap-6 sm:gap-10 md:gap-14">
           {/* Left Column: Details */}
-          <div className="md:w-[42%] flex flex-col justify-between py-2 md:py-4">
+          <div className="md:w-[38%] flex flex-col justify-between py-2 md:py-4">
             <div className="space-y-4 md:space-y-6">
               {/* Year & Category Pill */}
               <div className="flex items-center gap-3 text-white/50 text-xs md:text-sm font-bold uppercase tracking-widest">
@@ -267,19 +267,9 @@ export default function FeaturedProjects() {
   }, [isChurnModalOpen]);
 
   return (
-    <section id="work" className="w-full bg-[#0F0F0F] relative pt-16 pb-28">
-      {/* Section Header */}
-      <div className="max-w-[1400px] mx-auto px-6 mb-12 flex flex-col items-center md:items-start">
-        <span className="text-xs md:text-sm font-semibold tracking-[0.25em] uppercase text-[#999999] mb-3">
-          Selected Works
-        </span>
-        <h2 className="text-4xl md:text-6xl font-display uppercase tracking-tight text-white">
-          Featured Projects
-        </h2>
-      </div>
-
+    <section id="work" className="w-full bg-[#0F0F0F] relative">
       {/* Sticky Deck Stacking Container with useScroll */}
-      <div ref={container} className="relative mt-[5vh] mb-[10vh]">
+      <div ref={container} className="relative mt-[10vh] mb-[10vh]">
         {projects.map((project, i) => {
           const targetScale = 1 - (projects.length - i) * 0.05;
           return (
@@ -288,7 +278,7 @@ export default function FeaturedProjects() {
               i={i}
               project={project}
               progress={scrollYProgress}
-              range={[i * (1 / projects.length), 1]}
+              range={[0.1 * i, 1]}
               targetScale={targetScale}
               onOpenCaseStudy={(detail) => setSelectedProject(detail)}
               onOpenChurnSimulator={project.id === 1 ? () => setIsChurnModalOpen(true) : undefined}
