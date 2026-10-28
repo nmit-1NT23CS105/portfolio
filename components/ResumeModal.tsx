@@ -691,3 +691,4 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
     </AnimatePresence>
   );
 }
+

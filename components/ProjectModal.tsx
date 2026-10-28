@@ -124,6 +124,37 @@ async def analyze_document(
     image: "/images/driving-detection.svg",
     github: "https://github.com/nmit-1NT23CS082/AI-Dangerous-Driving-Detection",
   },
+  4: {
+    id: "4",
+    title: "AI Resume Analyzer (ATS Optimization)",
+    year: "2026",
+    category: "Full Stack & NLP",
+    stack: ["Python", "FastAPI", "NLP", "TF-IDF", "Cosine Similarity", "Render"],
+    description:
+      "Automated ATS resume parser evaluating applicant resumes against targeted job descriptions using TF-IDF vectorization and cosine similarity. Extracts missing technical keywords, calculates ATS compatibility score benchmarks, and outputs actionable improvement recommendations.",
+    architecture:
+      "Resume & JD Upload → Text Preprocessing & Lemmatization → TF-IDF Vectorizer with n-grams → Cosine Similarity Engine → Missing Keyword Extractor & Section Scorer → FastAPI JSON Response & Visual Match Heatmap.",
+    challengesSolved: [
+      "Noisy PDF Extraction: Cleaned complex multi-column resume layouts and removed formatting artifacts without losing critical skills.",
+      "Semantic Relevance: Applied n-gram tokenization and domain-specific stopword filtering to accurately capture compound tech terms like 'Deep Learning' or 'REST API'.",
+      "Actionable Feedback: Generated clear gap analysis highlighting exact keywords present in the JD but absent in the resume.",
+    ],
+    codeSnippet: `@app.post("/analyze-resume")
+async def analyze_resume(resume_file: UploadFile = File(...), job_description: str = Form(...)):
+    resume_text = extract_text_from_pdf(await resume_file.read())
+    
+    # Vectorize resume and job description using TF-IDF
+    tfidf = TfidfVectorizer(ngram_range=(1, 2), stop_words='english')
+    matrix = tfidf.fit_transform([resume_text, job_description])
+    
+    score = float(cosine_similarity(matrix[0:1], matrix[1:2])[0][0]) * 100
+    missing_skills = extract_missing_keywords(resume_text, job_description)
+    
+    return {"match_score": round(score, 1), "missing_keywords": missing_skills}`,
+    image: "/images/ai-resume.svg",
+    liveDemo: "https://ai-resume-analyzer-hwsa.onrender.com",
+    github: "https://github.com/nmit-1NT23CS105/Ai_resume_analyzer",
+  },
 };
 
 export default function ProjectModal({
@@ -148,143 +179,155 @@ export default function ProjectModal({
       {project && (
         <div
           data-lenis-prevent
-          className="fixed inset-0 z-[150] flex items-center justify-center p-3 sm:p-6 md:p-10"
+          className="fixed inset-0 z-[150] flex items-center justify-center p-3 sm:p-6 overflow-hidden"
         >
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-xl"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md"
           />
 
-          {/* Modal Window */}
+          {/* Modal Container */}
           <motion.div
-            data-lenis-prevent
-            initial={{ opacity: 0, scale: 0.94, y: 30 }}
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 30 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-4xl bg-[#141414] border border-white/15 rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.9)] overflow-hidden z-10 my-auto text-white flex flex-col max-h-[88vh]"
+            exit={{ opacity: 0, scale: 0.94, y: 20 }}
+            transition={{ type: "spring", damping: 28, stiffness: 320 }}
+            data-lenis-prevent
+            className="relative w-full max-w-4xl max-h-[90vh] bg-[#141414] border border-white/15 rounded-2xl sm:rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden text-white z-10 overscroll-contain"
           >
-            {/* Header Bar */}
-            <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-5 border-b border-white/10 bg-[#1a1a1a] shrink-0">
+            {/* Modal Header */}
+            <div className="px-6 sm:px-8 py-5 border-b border-white/10 flex items-center justify-between bg-[#181818]/80 backdrop-blur-md">
               <div className="flex items-center gap-3">
-                <span className="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-widest text-[#22c55e] bg-white/5 px-2.5 py-1 rounded">
-                  {project.year} • {project.category}
+                <span className="w-2.5 h-2.5 rounded-full bg-[#22C55E] animate-pulse" />
+                <span className="text-xs font-mono uppercase tracking-widest text-white/50">
+                  Engineering Deep Dive • {project.year}
                 </span>
               </div>
               <button
                 onClick={onClose}
-                className="p-1.5 sm:p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            {/* Scrollable Modal Content */}
+            {/* Modal Content - Scrollable */}
             <div
               data-lenis-prevent
-              className="p-4 sm:p-8 md:p-10 overflow-y-auto overscroll-contain space-y-6 sm:space-y-8 flex-1"
+              className="flex-1 overflow-y-auto px-6 sm:px-8 py-6 sm:py-8 space-y-8 no-scrollbar overscroll-contain"
             >
-              {/* Title & One-line Summary */}
+              {/* Title & Metadata */}
               <div>
-                <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-white mb-2 sm:mb-3">
+                <span className="text-xs font-mono font-bold text-[#22C55E] uppercase tracking-wider block mb-2">
+                  {project.category}
+                </span>
+                <h2 className="font-display text-2xl sm:text-4xl uppercase font-bold text-white leading-tight mb-4">
                   {project.title}
                 </h2>
-                <p className="text-white/70 text-xs sm:text-base leading-relaxed font-sans-clean">
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.stack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-xs font-mono px-3 py-1 rounded-full bg-white/5 text-white/80 border border-white/10"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-sm sm:text-base leading-relaxed text-white/80 font-normal">
                   {project.description}
                 </p>
               </div>
 
-              {/* Banner Image Preview */}
-              <div className="relative w-full h-[180px] sm:h-[300px] rounded-2xl overflow-hidden border border-white/10 bg-black/60">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-contain p-3 sm:p-4"
-                />
-              </div>
-
-              {/* Architecture Overview */}
-              <div className="bg-white/5 p-4 sm:p-6 rounded-2xl border border-white/10 space-y-2">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase text-[#38bdf8]">
-                  <Layers size={15} />
-                  <span>System Architecture &amp; Data Pipeline</span>
+              {/* Architecture Blueprint */}
+              <div className="p-5 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10">
+                <div className="flex items-center gap-2 mb-3 text-sm font-mono text-[#38bdf8] font-bold">
+                  <Layers size={16} />
+                  <span>Pipeline &amp; Architecture Flow</span>
                 </div>
-                <p className="text-xs sm:text-sm text-white/80 leading-relaxed font-sans-clean">
+                <p className="text-xs sm:text-sm font-mono leading-relaxed text-white/70 bg-black/40 p-4 rounded-xl border border-white/5">
                   {project.architecture}
                 </p>
               </div>
 
-              {/* Engineering Highlights / Challenges Overcome */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase text-amber-400">
-                  <Cpu size={15} />
-                  <span>Key Engineering Decisions &amp; Challenges Solved</span>
+              {/* Technical Challenges & Engineering Solutions */}
+              <div>
+                <div className="flex items-center gap-2 mb-4 text-sm font-mono text-[#22C55E] font-bold">
+                  <ShieldCheck size={16} />
+                  <span>Engineering Decisions &amp; Bottlenecks Solved</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-                  {project.challengesSolved.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="p-3.5 sm:p-4 rounded-xl bg-black/40 border border-white/10 text-xs text-white/75 font-sans-clean leading-relaxed flex items-start gap-2.5"
-                    >
-                      <ShieldCheck size={16} className="text-[#22c55e] flex-shrink-0 mt-0.5" />
-                      <span>{item}</span>
-                    </div>
-                  ))}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {project.challengesSolved.map((item, idx) => {
+                    const [heading, ...descParts] = item.split(": ");
+                    const desc = descParts.join(": ");
+                    return (
+                      <div
+                        key={idx}
+                        className="p-4 rounded-xl bg-white/[0.02] border border-white/10 flex flex-col justify-start"
+                      >
+                        <span className="text-xs font-mono font-bold text-white mb-1.5 flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E]" />
+                          {heading}
+                        </span>
+                        <p className="text-xs text-white/70 leading-relaxed font-sans-clean">
+                          {desc || item}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Code Snippet */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase text-purple-400">
-                  <Code2 size={15} />
-                  <span>Production API Implementation Sample</span>
+              {/* Production Code Snippet */}
+              <div>
+                <div className="flex items-center gap-2 mb-3 text-sm font-mono text-purple-400 font-bold">
+                  <Code2 size={16} />
+                  <span>Production Code Snippet</span>
                 </div>
-                <pre className="p-3.5 sm:p-4 rounded-xl bg-[#080808] border border-white/10 text-[11px] sm:text-xs font-mono text-green-400 overflow-x-auto leading-relaxed touch-pan-x">
-                  {project.codeSnippet}
-                </pre>
+                <div className="rounded-xl overflow-hidden border border-white/10 bg-black/80">
+                  <div className="px-4 py-2 border-b border-white/10 bg-white/5 flex items-center justify-between text-[11px] font-mono text-white/50">
+                    <span>main.py / pipeline</span>
+                    <span>Python 3.11</span>
+                  </div>
+                  <pre className="p-4 sm:p-5 text-xs font-mono text-white/80 overflow-x-auto leading-relaxed">
+                    <code>{project.codeSnippet}</code>
+                  </pre>
+                </div>
               </div>
+            </div>
 
-              {/* Stack badges & Actions */}
-              <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {project.stack.map((t) => (
-                    <span
-                      key={t}
-                      className="text-[11px] sm:text-xs font-mono px-2.5 py-1 rounded-full bg-white/10 text-white/80"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
-                  {project.liveDemo && (
-                    <a
-                      href={project.liveDemo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 rounded-full bg-white text-black text-xs sm:text-sm font-semibold hover:bg-white/90 transition-all hover:scale-105"
-                    >
-                      <span>Live Demo</span>
-                      <ExternalLink size={14} />
-                    </a>
-                  )}
+            {/* Modal Actions Footer */}
+            <div className="px-6 sm:px-8 py-4 border-t border-white/10 bg-[#161616]/90 backdrop-blur-md flex flex-wrap items-center justify-between gap-3">
+              <span className="text-xs font-mono text-white/50 hidden sm:inline">
+                Press ESC or click backdrop to close
+              </span>
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-end">
+                {project.liveDemo && (
                   <a
-                    href={project.github}
+                    href={project.liveDemo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 sm:px-6 py-2.5 rounded-full border border-white/20 text-white text-xs sm:text-sm font-semibold hover:bg-white/10 transition-all hover:scale-105"
+                    className="flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black font-semibold text-xs sm:text-sm hover:bg-white/90 transition-all hover:scale-105 active:scale-95"
                   >
-                    <span>GitHub</span>
+                    <span>Visit Live Demo</span>
                     <ExternalLink size={14} />
                   </a>
-                </div>
+                )}
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-5 py-2 rounded-full border border-white/20 text-white font-semibold text-xs sm:text-sm hover:bg-white/10 transition-all hover:scale-105 active:scale-95"
+                >
+                  <span>GitHub Repository</span>
+                  <ExternalLink size={14} />
+                </a>
               </div>
             </div>
           </motion.div>
@@ -293,4 +336,3 @@ export default function ProjectModal({
     </AnimatePresence>
   );
 }
-
